@@ -4,6 +4,7 @@ from .db import SessionLocal, init_db, DbInitTest
 
 app = FastAPI(title="Image Review Backend")
 
+
 def get_db():
     db = SessionLocal()
     try:
