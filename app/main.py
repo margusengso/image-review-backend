@@ -49,7 +49,7 @@ class GoogleLoginIn(BaseModel):
     credential: str  # Google ID token (from GSI)
 
 
-# ------------------- Auth (public) -------------------
+# ------------------- Auth (public) -----------------
 @app.post("/api/auth/google")
 def auth_google(payload: GoogleLoginIn, db: Session = Depends(get_db)):
     """
