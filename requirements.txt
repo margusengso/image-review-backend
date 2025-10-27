@@ -1,3 +1,7 @@
-fastapi
-uvicorn[standard]
-sqlalchemy
+fastapi~=0.120.0
+uvicorn[standard]~=0.38.0
+sqlalchemy~=2.0.44
+google-auth[requests]
+python-jose[cryptography]~=3.5.0
+python-dotenv~=1.2.1
+pydantic~=2.12.3
