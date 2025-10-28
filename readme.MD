@@ -2,6 +2,8 @@
 
 Simple FastAPI + SQLite backend.
 
+Before running the backend ensure that port 8000 is not is use.
+
 ---
 
 ## First run (setup)
@@ -20,4 +22,28 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 source .venv/bin/activate
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+
+
+### Test Endpoint Backend
+
+To verify that the backend is running correctly, open:
+```
+http://localhost:8000/api/health
+```
+You should see:
+```json
+{ "status": "ok" }
+```
+
+### Test Endpoint Backend + Database
+
+To verify that both backend and database are running correctly, open:
+```
+http://localhost:8000/api/test
+```
+You should see:
+```json
+{ "message": "Inserted sample" }
 ```

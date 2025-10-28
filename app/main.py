@@ -82,7 +82,7 @@ def add_sample(db: Session = Depends(get_db)):
     return {"message": "Inserted sample"}
 
 
-# ------------------- Schemas -------------------
+# ------------------- Documented Schemas -------------------
 class GoogleLoginIn(BaseModel):
     credential: str  # Google ID token (from GSI)
 
@@ -208,7 +208,7 @@ def get_next_image(payload=Depends(get_current_user_payload), db: Session = Depe
 
     img = db.execute(select(TestImage).where(~subquery).order_by(TestImage.id).limit(1)).scalar_one_or_none()
     if not img:
-        return {"id": None, "url": None, "suggested_label": None, "confidence": None}
+        return {"id": None, "url": None, "suggested_label": "", "confidence": None}
 
     return {
         "id": img.id,
@@ -220,10 +220,7 @@ def get_next_image(payload=Depends(get_current_user_payload), db: Session = Depe
 
 @app.post("/api/labels")
 def submit_label(body: LabelIn, payload=Depends(get_current_user_payload), db: Session = Depends(get_db)):
-    """
-    JWT-protected: upsert user's FINAL label for an image.
-    Body: {"image_id":"img_123","label":"dog"}
-    """
+
     user = require_user(db, payload)
 
     img = db.execute(select(TestImage).where(TestImage.id == body.image_id)).scalar_one_or_none()
