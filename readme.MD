@@ -47,3 +47,7 @@ You should see:
 ```json
 { "message": "Inserted sample" }
 ```
+
+### For Improvement
+
+ATM Pushing to main branch initiates Actions to build the image on dockerhub, there are no separate environments implemented. This would be something to seriously consider.
