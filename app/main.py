@@ -143,7 +143,6 @@ def auth_google(payload: GoogleLoginIn, db: Session = Depends(get_db)):
 
     db.refresh(user)
 
-    # 3) Issue backend JWT (4h as configured in env)
     token = create_jwt(sub)
 
     # 4) Return normalized user payload
@@ -169,10 +168,6 @@ def require_user(db: Session, payload: dict) -> User:
 # ------------------- Protected -------------------
 @app.get("/api/me")
 def me(payload=Depends(get_current_user_payload), db: Session = Depends(get_db)):
-    """
-    Protected: verify JWT, then resolve and return the current user from DB.
-    Frontend will auto-logout on any 401.
-    """
     user = db.execute(select(User).where(User.sub == payload["sub"])).scalar_one_or_none()
     if not user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found")
@@ -187,16 +182,6 @@ def me(payload=Depends(get_current_user_payload), db: Session = Depends(get_db))
 
 @app.get("/api/images/next")
 def get_next_image(payload=Depends(get_current_user_payload), db: Session = Depends(get_db)):
-    """
-    JWT-protected: return ONE image that the current user has NOT yet labeled.
-    {
-      "id": "img_123",
-      "url": "https://...",
-      "suggested_label": "dog",
-      "confidence": 0.88
-    }
-    If no more images, returns all fields as None.
-    """
     user = require_user(db, payload)
 
     # anti-join: image with NO submission by this user

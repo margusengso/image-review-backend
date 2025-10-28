@@ -5,7 +5,7 @@ from google.oauth2 import id_token
 from google.auth.transport import requests as grequests
 from dotenv import load_dotenv
 
-load_dotenv()  # Using just one default environment for this case. no local, dev, staging and prod logic..
+load_dotenv()  # Using just one default environment for this case. no local, dev, staging and prod logic...
 
 JWT_SECRET_KEY     = os.getenv("JWT_SECRET_KEY")
 JWT_ALGORITHM      = os.getenv("JWT_ALGORITHM", "HS256")
